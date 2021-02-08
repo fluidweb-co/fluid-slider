@@ -410,7 +410,6 @@
 		manager.slideSpacingCount = ( manager.slideCount * ( manager.slideCount - 1 ) );
 		manager.slideWidth = manager.slides.item(0).getBoundingClientRect().width;
 		manager.slideSpacing = getSlidesSpacing( manager );
-		console.log( manager.slideSpacing );
 		manager.containerWidth = ( manager.slideSpacingCount * manager.slideSpacing ) + ( manager.slideCount * manager.slideWidth );
 
 		// Set container width
