@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fluid Slider Test</title>
+	
+	<link rel='stylesheet' id='fluid-slider'  href='dist/fluid-slider.min.css' type='text/css' media='all' />
+	<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+	<script type="text/javascript" src="dist/fluid-slider.min.js"></script>
+	
+	<script type="text/javascript">
+		var log = function( message ) {
+			var debugContainer = document.querySelector( '.debug-container' );
+			if ( debugContainer ) {
+				var newMessage = document.createElement( 'p' );
+				newMessage.innerText = message;
+				debugContainer.appendChild( newMessage );
+			}
+		}
+
+		var initSlider = function() {
+			if ( window.FluidSlider ) {
+				FluidSlider.init();
+				log( 'Fluid Slider initialized.' );
+			}
+			else {
+				log( 'Fluid Slider isn\'t loaded.' );
+			}
+		}
+
+		window.addEventListener( "DOMContentLoaded", function () { log( 'DOM Content loaded' ); } );
+		window.addEventListener( "DOMContentLoaded", function () { initSlider(); } );
+		window.addEventListener( "load", function () { log( 'Page loaded' ); } );
+	
+	</script>
+
+	<style type="text/css">
+		.slider-wrapper,
+		.slider-wrapper * {
+			box-sizing: border-box;
+		}
+
+		.slider-item {
+			background-color: #f3f3f3;
+			border: solid 2px #ddd;
+			height: 30vh;
+		}
+	</style>
+
+</head>
+<body>
+	
+	<div class="instructions">
+		Notes:
+		<ul>
+			<li>Fluid Slider needs the library Hammer.js to be loaded before being initialized</li>
+		</ul>
+	</div>
+
+	<hr/>
+
+	<h2>One slide per view</h2>
+	
+	<div class="slider-wrapper" data-slider-navigation-buttons="true" data-slider-navigation-bullets="true">
+		<div class="slider-viewport">
+			<div class="slider-container">
+				<div class="slider-item"> Slider 1 </div>
+				<div class="slider-item"> Slider 2 </div>
+				<div class="slider-item"> Slider 3 </div>
+				<div class="slider-item"> Slider 4 </div>
+				<div class="slider-item"> Slider 5 </div>
+				<div class="slider-item"> Slider 6 </div>
+			</div>
+		</div>
+	</div>
+
+	<hr/>
+
+	<div class="debug-container">
+	</div>
+
+</body>
+</html>

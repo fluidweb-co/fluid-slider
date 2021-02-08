@@ -1,0 +1,94 @@
+/*------------------------------------*\
+  #IMPORT ABSTRACT
+\*------------------------------------*/  
+@import
+	"abstract/variables";
+
+
+
+/*------------------------------------*\
+  #SLIDER
+\*------------------------------------*/
+.slider-viewport,
+.slider-wrapper {
+	position: relative;
+}
+
+
+
+.slider-viewport.is-activated,
+.slider-viewport.is-resizing {
+	width: 100%;
+	overflow: hidden;
+}
+
+
+
+.slider-viewport.is-activated .slider-item {
+	float: left;
+	clear: none;
+}
+
+
+
+.slider-viewport.is-animating .slider-container {
+	transition: transform $fluid-slider-animation-duration $fluid-slider-animation-easing;
+}
+
+
+
+.slider-navigation__prev,
+.slider-navigation__next {
+	z-index: $fluid-slider-navigation-button-zindex;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0;
+	padding: 0;
+	width: $fluid-slider-navigation-button-width;
+	height: $fluid-slider-navigation-button-height;
+	background: transparent;
+	color: $fluid-slider-navigation-color;
+	animation: none; // Prevent button animation from wasting processing power
+	box-shadow: none;
+	
+	&:hover,
+	&:focus,
+	&:active {
+		box-shadow: none;
+		transform: translateY(-50%) scale(1.15);
+		background: transparent;
+		color: $fluid-slider-navigation-color;
+	}
+}
+.slider-navigation__prev {
+	left: $fluid-slider-navigation-button-spacing;
+}
+.slider-navigation__next {
+	right: $fluid-slider-navigation-button-spacing;
+}
+
+
+
+.slider-navigation-bullets {
+	position: relative;
+	padding-top: $fluid-slider-bullet-spacing;
+	width: 100%;
+	text-align: center;
+	font-size: $fluid-slider-bullet-size;
+	line-height: $fluid-slider-bullet-size;
+}
+.slider-navigation-bullets__item {
+	display: inline-block;
+	margin-right: $fluid-slider-bullet-items-spacing;
+	width: $fluid-slider-bullet-size;
+	height: $fluid-slider-bullet-size;
+	background-color: $fluid-slider-bullet-color;
+	border-radius: 100%;
+}
+.slider-navigation-bullets__item:last-child {
+	margin-right: 0;
+}
+.slider-navigation-bullets__item.is-current {
+	background-color: $fluid-slider-bullet-current-color;
+}

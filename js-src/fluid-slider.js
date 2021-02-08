@@ -42,10 +42,10 @@
 		slidesPerViewAttribute: 'data-slider-per-view',
 		slidesPerView: {
 			xs: { breakpointInitial: 0, breakpointFinal: 749, itemsPerView: 1 },
-			md: { breakpointInitial: 750, breakpointFinal: 999, itemsPerView: 3 },
-			ml: { breakpointInitial: 1000, breakpointFinal: 1199, itemsPerView: 4 },
-			lg: { breakpointInitial: 1200, breakpointFinal: 1499, itemsPerView: 4 },
-			xl: { breakpointInitial: 1500, breakpointFinal: 100000, itemsPerView: 4 }, // breakpointFinal can be any very high number
+			md: { breakpointInitial: 750, breakpointFinal: 999, itemsPerView: 1 },
+			ml: { breakpointInitial: 1000, breakpointFinal: 1199, itemsPerView: 1 },
+			lg: { breakpointInitial: 1200, breakpointFinal: 1499, itemsPerView: 1 },
+			xl: { breakpointInitial: 1500, breakpointFinal: 100000, itemsPerView: 1 }, // breakpointFinal can be any very high number
 		},
 		
 		createNavigationButtons: false,
@@ -54,9 +54,9 @@
 		navigationPrevSelector: '.slider-navigation__prev',
 		navigationNextSelector: '.slider-navigation__next',
 		hasNavigationButtonsClass: 'has-navigation-buttons',
-		navigationButtonsTemplate: '<div class="slider-navigation"><button class="slider-navigation__prev">Previous</button></div><button class="slider-navigation__next">Next</button></div>',
+		navigationButtonsTemplate: '<div class="slider-navigation"><button class="slider-navigation__prev">Previous</button><button class="slider-navigation__next">Next</button></div>',
 		
-		createNavigationBullets: false,
+		createNavigationBullets: true,
 		createNavigationBulletsAttribute: 'data-slider-navigation-bullets',
 		navigationBulletsSelector: '.slider-navigation-bullets',
 		navigationBulletItemSelector: '.slider-navigation-bullets__item',
@@ -410,6 +410,7 @@
 		manager.slideSpacingCount = ( manager.slideCount * ( manager.slideCount - 1 ) );
 		manager.slideWidth = manager.slides.item(0).getBoundingClientRect().width;
 		manager.slideSpacing = getSlidesSpacing( manager );
+		console.log( manager.slideSpacing );
 		manager.containerWidth = ( manager.slideSpacingCount * manager.slideSpacing ) + ( manager.slideCount * manager.slideWidth );
 
 		// Set container width
@@ -518,6 +519,17 @@
 		_publicMethods.managers.push( manager );
 	}
 
+
+
+	var finishInit = function() {
+		var sliders = document.querySelectorAll( _settings.sliderWrapperSelector );
+		for ( var slideIndex = 0; slideIndex < sliders.length; slideIndex++ ) {
+			_publicMethods.initializeSlider( sliders[ slideIndex ] );
+		}
+		
+		_hasInitialized = true;
+	}
+
 	
 
 	/**
@@ -529,16 +541,14 @@
 		// Merge with general settings with options
 		_settings = extend( _defaults, options );
 
-		// Require dependencies
-		if ( RequireBundle ) {
-			// TODO: Make it finish initialization without RequireBundle, if the HammerJS library is already loaded
+		// Finish initialization after loading dependences
+		if ( window.Hammer ) {
+			finishInit();
+		}
+		// Require dependencies with RequireBundle
+		else if ( window.RequireBundle ) {
 			RequireBundle.require( ['hammerjs'], function() {
-				var sliders = document.querySelectorAll( _settings.sliderWrapperSelector );
-				for ( var slideIndex = 0; slideIndex < sliders.length; slideIndex++ ) {
-					_publicMethods.initializeSlider( sliders[ slideIndex ] );
-				}
-				
-				_hasInitialized = true;
+				finishInit();
 			} );
 		}
 	};

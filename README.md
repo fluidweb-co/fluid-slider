@@ -10,9 +10,11 @@ Provide functions to handle animations and transitions gracefully. Execute a fun
 
 ## Installation
 
-Setting up is pretty straight-forward. Just download the script from __dist__ folder and include it in your HTML:
+Setting up is pretty straight-forward. Download the js and css files from __dist__ folder and include them in your HTML, you'll also need the library [Hammer.JS](https://hammerjs.github.io/):
 
 ```html
+<link rel='stylesheet' id='fluid-slider'  href='dist/fluid-slider.min.css' type='text/css' media='all' />
+<script type="text/javascript" src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 <script type="text/javascript" src="path/to/dist/fluid-slider.min.js"></script>
 ```
 
@@ -23,6 +25,8 @@ Fluid Slider is also available on NPM:
 ```sh
 $ npm install fluid-slider
 ```
+
+When using NPM, Hammer.JS will be added as a dependency.
 
 
 
@@ -59,10 +63,10 @@ These are the currently accepted options with their default values, if in doubt 
 		slidesPerViewAttribute: 'data-slider-per-view',
 		slidesPerView: {
 			xs: { breakpointInitial: 0, breakpointFinal: 749, itemsPerView: 1 },
-			md: { breakpointInitial: 750, breakpointFinal: 999, itemsPerView: 3 },
-			ml: { breakpointInitial: 1000, breakpointFinal: 1199, itemsPerView: 4 },
-			lg: { breakpointInitial: 1200, breakpointFinal: 1499, itemsPerView: 4 },
-			xl: { breakpointInitial: 1500, breakpointFinal: 100000, itemsPerView: 4 }, // breakpointFinal can be any very high number
+			md: { breakpointInitial: 750, breakpointFinal: 999, itemsPerView: 1 },
+			ml: { breakpointInitial: 1000, breakpointFinal: 1199, itemsPerView: 1 },
+			lg: { breakpointInitial: 1200, breakpointFinal: 1499, itemsPerView: 1 },
+			xl: { breakpointInitial: 1500, breakpointFinal: 100000, itemsPerView: 1 }, // breakpointFinal can be any very high number
 		},
 		
 		createNavigationButtons: false,
