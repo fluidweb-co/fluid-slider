@@ -1,6 +1,6 @@
 {
   "name": "fluid-slider",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Lightweight Slider library with support for mobile devices with touch gestures (swipe left/right), navigation buttons and slider count bullets.",
   "keywords": [
     "slider",
