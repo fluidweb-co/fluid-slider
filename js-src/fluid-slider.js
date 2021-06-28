@@ -2,10 +2,10 @@
  * Fluid Slider
  *
  * Lightweight Slider library with support for mobile devices with touch gestures (swipe left/right), navigation buttons and slider count bullets.
- * 
+ *
  * (c) 2021 Fluidweb.co, MIT License, https://fluidweb.co
  */
-(function (root, factory) {
+ (function (root, factory) {
 	if ( typeof define === 'function' && define.amd ) {
 	  define([], factory(root));
 	} else if ( typeof exports === 'object' ) {
@@ -16,7 +16,6 @@
 })(typeof global !== 'undefined' ? global : this.window || this.global, function (root) {
 
 	'use strict';
-
 
 	var _hasInitialized = false;
 	var _transitionEndEvent = window.whichTransitionEnd ? window.whichTransitionEnd() : 'transitionend';
@@ -34,11 +33,11 @@
 		isResizingClass: 'is-resizing',
 		isAnimatingClass: 'is-animating',
 		isCurrentClass: 'is-current',
-		
+
 		slideSpacing: 0, // px
 		slideSensitivity: 30, // % of slide item width
 		touchEventsSensitivity: 25, // px
-		
+
 		slidesPerViewAttribute: 'data-slider-per-view',
 		slidesPerView: {
 			xs: { breakpointInitial: 0, breakpointFinal: 749, itemsPerView: 1 },
@@ -47,7 +46,7 @@
 			lg: { breakpointInitial: 1200, breakpointFinal: 1499, itemsPerView: 1 },
 			xl: { breakpointInitial: 1500, breakpointFinal: 100000, itemsPerView: 1 }, // breakpointFinal can be any very high number
 		},
-		
+
 		createNavigationButtons: false,
 		createNavigationButtonsAttribute: 'data-slider-navigation-buttons',
 		navigationButtonsSelector: '.slider-navigation',
@@ -55,7 +54,7 @@
 		navigationNextSelector: '.slider-navigation__next',
 		hasNavigationButtonsClass: 'has-navigation-buttons',
 		navigationButtonsTemplate: '<div class="slider-navigation"><button class="slider-navigation__prev">Previous</button><button class="slider-navigation__next">Next</button></div>',
-		
+
 		createNavigationBullets: true,
 		createNavigationBulletsAttribute: 'data-slider-navigation-bullets',
 		navigationBulletsSelector: '.slider-navigation-bullets',
@@ -83,22 +82,22 @@
 
 		// Check if a deep merge
 		if ( Object.prototype.toString.call( arguments[0] ) === '[object Boolean]' ) {
-		deep = arguments[0];
-		i++;
+			deep = arguments[0];
+			i++;
 		}
 
 		// Merge the object into the extended object
 		var merge = function (obj) {
-		for (var prop in obj) {
-			if (obj.hasOwnProperty(prop)) {
-			// If property is an object, merge properties
-			if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
-				extended[prop] = extend(extended[prop], obj[prop]);
-			} else {
-				extended[prop] = obj[prop];
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+				// If property is an object, merge properties
+				if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+					extended[prop] = extend(extended[prop], obj[prop]);
+				} else {
+					extended[prop] = obj[prop];
+				}
+				}
 			}
-			}
-		}
 		};
 
 		// Loop through each object and conduct a merge
@@ -146,7 +145,7 @@
 				console.log( 'Could not parse attribute "' + _settings.slidesPerViewAttribute + '" into JSON.');
 			}
 		}
-		
+
 		Object.entries( slidesPerView ).forEach( function ( values, i ) {
 			if ( windowWidth >= values[1].breakpointInitial && windowWidth <= values[1].breakpointFinal ) {
 				itemsPerView = values[1].itemsPerView;
@@ -198,7 +197,7 @@
 	var setNavigationButtonDisabledStatus = function( button, isDisabled ) {
 		// Bail if button not valid
 		if ( ! button ) { return; }
-		
+
 		if ( isDisabled ) {
 			button.classList.add( _settings.isDisabledClass );
 		}
@@ -325,10 +324,10 @@
 				_publicMethods.goTo( manager, moveToSlide );
 			}
 		} );
-		
+
 		// Apply animating class
 		manager.sliderViewport.classList.add( _settings.isAnimatingClass );
-		
+
 		// Slightly change position of slider container
 		manager.sliderContainer.style.transform = 'translateX(' + ( getSlidePosition( manager, manager.activeSlide ) + distance ) + 'px)';
 	}
@@ -403,6 +402,12 @@
 	 * Resize slider elements with absolute values
 	 */
 	_publicMethods.resizeSlider = function( manager ) {
+		// Bail if slider does not have items
+		if ( ! manager || manager.slides.length <= 0 ) {
+			console.log( 'Slider does not contain any element with class `.slider-item`.' );
+			return;
+		}
+
 		// Clear sizings before resizing
 		removeSlideSizing( manager );
 
@@ -453,7 +458,7 @@
 	_publicMethods.goTo = function( manager, number ) {
 		setActiveSlide( manager, number );
 	};
-	
+
 
 
 	/**
@@ -467,12 +472,12 @@
 		manager.slides = sliderWrapper.querySelectorAll( _settings.sliderItemSelector );
 		manager.slideCount = manager.slides.length;
 		manager.activeSlide = 0;
-		
+
 		// Initialize Hammer Touch event listeners
 		manager.hammerManager = new Hammer.Manager( manager.sliderViewport );
 		manager.hammerManager.add( new Hammer.Pan( { direction: Hammer.DIRECTION_HORIZONTAL, threshold: _settings.touchEventsSensitivity, pointers: 0 } ) );
 		manager.hammerManager.on( 'pan', function( e ) { handleSlidePan( manager, e ); } );
-		
+
 		// Add navigation buttons
 		var createNavigationButtonsAttrValue = manager.sliderWrapper.getAttribute( _settings.createNavigationButtonsAttribute );
 		var createNavigationButtonsValue = createNavigationButtonsAttrValue != null ? createNavigationButtonsAttrValue === 'true' : _settings.createNavigationButtons;
@@ -494,7 +499,7 @@
 			navigationBulletsElements.innerHTML = _settings.navigationBulletsWrapperTemplate.trim();
 			manager.sliderWrapper.appendChild( navigationBulletsElements.childNodes[0] );
 			manager.sliderNavigationBullets = sliderWrapper.querySelector( _settings.navigationBulletsSelector );
-			
+
 			for ( var i = 0; i < manager.slideCount; i++ ) {
 				var bulletElement = document.createElement('div');
 				bulletElement.innerHTML = _settings.navigationBulletItemTemplate.trim();
@@ -506,14 +511,14 @@
 
 		// Set slider element as activated
 		manager.sliderViewport.classList.add( _settings.isActivatedClass );
-		
+
 		// Resize elements
 		_publicMethods.resizeSlider( manager );
 		window.addEventListener( 'resize', function() { _publicMethods.resizeSlider( manager ); } );
-		
+
 		// Event other listeners
 		document.addEventListener( 'click', handleCapturedClick );
-		
+
 		// Add slider manager to public methods
 		_publicMethods.managers.push( manager );
 	}
@@ -525,11 +530,11 @@
 		for ( var slideIndex = 0; slideIndex < sliders.length; slideIndex++ ) {
 			_publicMethods.initializeSlider( sliders[ slideIndex ] );
 		}
-		
+
 		_hasInitialized = true;
 	}
 
-	
+
 
 	/**
 	 * Initialize
